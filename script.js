@@ -13,15 +13,26 @@ let score = document.querySelector('.score');
 let numHighScore = 0;
 
 
+///// FUNCTIONS
+
+const displayInfo = function (info) {
+	message.textContent = info;	
+}
+
+
+///////Game functionality
 check.addEventListener('click', function () {
 	let guess = Number(document.querySelector('.guess').value);
 
 	if (!guess) {
 		// if guess is 0 = falsey value, ! convert to truthy for the condition to run or if guess === 0 can still run the condition
-		message.textContent = 'No Number!';
+		//message.textContent = 'No Number!';
+		displayInfo('No number');
 
 	} else if (guess === secretNumber) {
-		message.textContent = 'Correct Number!!!';
+		//message.textContent = 'Correct Number!!!';
+		displayInfo('Correct Number!!!!');
+
 		number.textContent = secretNumber;
 		body.style.backgroundColor = '#60b347';
 		number.style.width = '30rem';
@@ -31,7 +42,22 @@ check.addEventListener('click', function () {
 			highScore.textContent = numHighScore;
 		}
 
-	} else if (guess > secretNumber) {
+	}else if (guess !== secretNumber) {
+		if (numScore > 1) {
+			//message.textContent = guess > secretNumber ?  'too high' : 'too low'
+			displayInfo(guess > secretNumber ?  'too high' : 'too low');
+			numScore--;
+			score.textContent = numScore;
+		} else {
+			//message.textContent = 'You lost the game';
+			displayInfo('You lost the game');
+
+			score.textContent = 0;
+		}
+	}
+	
+	/*
+	else if (guess > secretNumber) {
 		if (numScore > 1) {
 			message.textContent = 'too high';
 			numScore--;
@@ -49,13 +75,14 @@ check.addEventListener('click', function () {
 			message.textContent = 'You lost the game';
 			score.textContent = 0;
 		}
-	}
+	} */
 })
-
 
 again.addEventListener('click', function () {
 	numScore = 20;
-	message.textContent = 'Start guessing...'
+	//message.textContent = 'Start guessing...'
+	displayInfo('STart guessing...');
+
 	score.textContent = numScore;
 	body.style.background = '#222';
 	number.textContent = '?';
